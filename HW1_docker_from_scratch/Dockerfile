@@ -1,5 +1,5 @@
 # building main service binary
-FROM golang:1.21 AS service-builder
+FROM golang:1.24 AS service-builder
 
 WORKDIR /service
 
@@ -8,7 +8,7 @@ COPY service.go .
 RUN CGO_ENABLED=0 GOOS=linux go build -o service service.go
 
 # building dep binary
-FROM golang:1.21 AS outputter-builder
+FROM golang:1.24 AS outputter-builder
 
 WORKDIR /outputter
 

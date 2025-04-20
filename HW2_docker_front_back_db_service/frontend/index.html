@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Go User Form</title>
+</head>
+<body>
+  <h1>Add User</h1>
+  <form id="userForm">
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h2>Users:</h2>
+  <ul id="userList"></ul>
+
+  <script>
+    const API_URL = "http://localhost:8080/data";
+
+    async function loadUsers() {
+      const res = await fetch(API_URL);
+      const users = await res.json();
+      const list = document.getElementById("userList");
+      list.innerHTML = "";
+      users.forEach(u => {
+        const li = document.createElement("li");
+        li.textContent = `${u.name} - ${u.email}`;
+        list.appendChild(li);
+      });
+    }
+
+    document.getElementById("userForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+
+      await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email })
+      });
+
+      e.target.reset();
+      loadUsers();
+    });
+
+    loadUsers();
+  </script>
+</body>
+</html>
