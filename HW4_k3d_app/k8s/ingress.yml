@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+
+kind: Ingress
+metadata:
+  name: check-k3d-app-ingress
+  namespace: hw4-test-app
+spec:
+  rules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: check-k3d-service
+              port:
+                number: 8080
