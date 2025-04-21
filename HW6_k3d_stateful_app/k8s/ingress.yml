@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: hw5-test-app
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: localhw5.test
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: html-frontend
+            port:
+              number: 80
+      - pathType: Prefix
+        path: /data
+        backend:
+          service:
+            name: go-backend
+            port:
+              number: 8080
